@@ -1,0 +1,82 @@
+{% extends "bootstrap/base.html" %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title>FLask website</title>
+		{% block styles -%}
+		{{super()}}
+		<link rel="stylesheet" href="{{url_for('static', filename='stylesheets/style.css')}}"/>	
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		{% endblock styles %}
+	</head>
+		
+		{% block navbar %}
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="/">Home</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			  <ul class="nav navbar-nav">
+				<li><a href="/classifiedData">Classified data</a></li>
+				<li><a href="/allMACData">All MAC data</a></li>     
+			  </ul>
+			    
+			</div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>
+		{% endblock %}
+	
+	<body>
+		
+		{% block content %}
+
+		<div class="jumbotron" style=background-image:url({{url_for('static', filename="images/banner.jpg")}})>
+							
+			<h1>Dissertation piece!</h1>
+			<p>Jordan Draper</p>
+		</div>
+		
+
+			<h3>MAC data</h3>
+			<p>All of the collected MAC Address data can be seen below, use the seach bar to search the data</p>
+			<input class="form-control" id="myInput" type="text" placeholder="Search...">
+			<br>
+			
+		
+		
+		{% for table in tables %}
+			{{table|safe}}
+		{% endfor %}
+		
+		
+		{% endblock %}
+		
+		
+		{% block scripts %}
+		<script>
+		$(document).ready(function(){
+		  $("#myInput").on("keyup", function() {
+			var value = $(this).val().toLowerCase();
+			$("#myTable tr").filter(function() {
+			  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		  });
+		});
+		</script>
+		{{super()}}
+		{% endblock %}
+		
+
+	</body>
+</html>
